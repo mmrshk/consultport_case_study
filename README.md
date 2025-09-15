@@ -1,24 +1,19 @@
-# README
+# Currency Converter
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This is a simple solution for currency conversion.
+The main idea for improving the efficiency of this API was to introduce an `ExchangeRate` model, which stores exchange rates. When a conversion is requested, the system first checks if the rate already exists and uses the stored value, avoiding unnecessary external API calls.
 
-Things you may want to cover:
+To keep the data up to date, a Sidekiq scheduled task should run daily to fetch the latest exchange rates (Not Implemented).
 
-* Ruby version
+The list of supported currencies should be carefully considered, as storing too many could unnecessarily increase database size.
 
-* System dependencies
+The exact implementation depends on business needs:
 
-* Configuration
+- If historical accuracy is required (e.g., for invoices), you may want to store past rates permanently.
 
-* Database creation
+- If not needed, old rates can be safely removed each day to keep the database clean.
 
-* Database initialization
 
-* How to run the test suite
+## The entrypoint:
 
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+- `CurrenciesController#convert`
